@@ -10,7 +10,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 passport.use(new LocalStrategy(User.authenticate()));
 
-
 var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
@@ -35,7 +34,7 @@ exports.verifyUser = passport.authenticate('jwt', { session: false });
 exports.passport = passport;
 exports.getToken = function(user) {
     return jwt.sign(user,config.secretKey, {
-        expiresIn: 3600
+        expiresIn: 7200
     });
 };
 exports.verifyAdmin = function (req, res, next) {
