@@ -23,9 +23,10 @@ router.route('/')
 
 router.route('/signup')
   .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
-  .post(cors.corsWithOptions, (req, res, next) => {
+  .post(cors.corsWithOptions, (req, res, nex) => {
+    console.log(req.body);
     User.register(new User({
-        username: req.body.username, firstname: req.body.firstName, lastname:req.body.lastName, admin: false
+        username: req.body.username, firstName: req.body.firstName, lastName:req.body.lastName, phone: req.body.phone, admin: false
       }),req.body.password, (err, user) => {
         if(err) {
           if (err.name == "UserExistsError") {
@@ -33,6 +34,7 @@ router.route('/signup')
             res.setHeader('Content-Type', 'application/json');
             res.json({err: err});
           } else {
+            console.log(err, 'it went there');
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
             res.json({err: err});
@@ -43,7 +45,7 @@ router.route('/signup')
               var token = authenticate.getToken({_id: req.user._id})
               res.statusCode = 200;
               res.setHeader('Content-Type','application/json');
-              res.json({success: true, token: token, status: 'Registration Successful'});
+              res.json({success: true, token: token, status: 'You are successfully registrated'});
             })
         }
       })
