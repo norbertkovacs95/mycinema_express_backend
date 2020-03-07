@@ -59,10 +59,11 @@ router.route('/login')
   });
 
 router.route('/verifyUser')
+  .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })  
   .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type','application/json');
-      res.json({success: true, status: 'You are successfully logged in'});
+      res.json({success: true, user:req.user, status: 'You are successfully logged in'});
   })
 
 router.route('/logout')
