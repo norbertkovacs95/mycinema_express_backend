@@ -24,7 +24,6 @@ router.route('/')
 router.route('/signup')
   .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
   .post(cors.corsWithOptions, (req, res, nex) => {
-    console.log(req.body);
     User.register(new User({
         username: req.body.username, firstName: req.body.firstName, lastName:req.body.lastName, phone: req.body.phone, admin: false
       }),req.body.password, (err, user) => {
@@ -34,7 +33,6 @@ router.route('/signup')
             res.setHeader('Content-Type', 'application/json');
             res.json({err: err});
           } else {
-            console.log(err, 'it went there');
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
             res.json({err: err});
