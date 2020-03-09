@@ -41,9 +41,16 @@ router.route('/signup')
         else {
             passport.authenticate('local')(req, res, () => {
               var token = authenticate.getToken({_id: req.user._id})
+              let user = {
+                firstName: req.user.firstName,
+                lastName: req.user.lastName,
+                phone: req.user.phone,
+                username:req.user.username,
+                _id: req.user._id
+              }
               res.statusCode = 200;
               res.setHeader('Content-Type','application/json');
-              res.json({success: true, token: token, status: 'You are successfully registrated'});
+              res.json({success: true, token: token, status: 'You are successfully registrated', user: user});
             })
         }
       })
@@ -53,17 +60,31 @@ router.route('/login')
   .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
   .post(cors.corsWithOptions, passport.authenticate('local'), (req, res) => {
     var token = authenticate.getToken({_id: req.user._id})
+    let user = {
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      phone: req.user.phone,
+      username:req.user.username,
+      _id: req.user._id
+    }
     res.statusCode = 200;
     res.setHeader('Content-Type','application/json');
-    res.json({success: true, token:token, status: 'You are successfully logged in'})  
+    res.json({success: true, token:token, status: 'You are successfully logged in', user: user})  
   });
 
 router.route('/verifyUser')
   .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })  
   .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+      let user = {
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        phone: req.user.phone,
+        username:req.user.username,
+        _id: req.user._id
+      }
       res.statusCode = 200;
       res.setHeader('Content-Type','application/json');
-      res.json({success: true, user:req.user, status: 'You are successfully logged in'});
+      res.json({success: true, user: user, status: 'You are successfully logged in'});
   })
 
 router.route('/logout')
