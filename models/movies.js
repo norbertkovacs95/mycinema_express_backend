@@ -37,6 +37,10 @@ const movieSchema = new Schema({
         coverPath:{
             type: String
         },
+        nowPlaying:{
+            type: Boolean,
+            default: true
+        },
         showTimes: [{ type : mongoose.Schema.Types.ObjectId, ref: 'ShowTime' }],
     },
     {
